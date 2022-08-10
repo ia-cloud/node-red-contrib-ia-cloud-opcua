@@ -1,0 +1,54 @@
+<!--
+  Copyright JS Foundation and other contributors, http://js.foundation
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  http://www.apache.org/licenses/LICENSE-2.0
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<script type="text/html" data-help-name="ia-cloud2opc-ua">
+    <p>register ia-cloud object to OPC-UA server</p>
+
+<h3>プロパティ項目</h3>
+<dl class="message-properties">
+    <dt>名前空間番号<span class="property-type">number</span></dt>
+    <dd>名前空間を示す番号。現在のところ変更不可。ns=1 に固定</dd>
+    <dt>名前空間名称<span class="property-type">string</span></dt>
+    <dd>名前空間を示す名称。自動で付与(urn:host名:NodeOPCUA-Server)される現在のところ変更不可。</dd>
+    <dt>ノード名称<span class="property-type">string</span></dt>
+    <dd>ノード毎に付与する任意の名称</dd>
+</dl>
+
+<h3>入力メッセージ</h3>
+<dl class="message-properties">
+    <dt>dataObject <span class="property-type">object</span></dt>
+    <dd>opc-uaサーバー登録する<code>dataObject</code><span class="property-type">object</span></dd>
+</dl>
+
+<h3>出力メッセージ1 </h3>
+<dl class="message-properties">
+    <dt>payload <span class="property-type">object</span></dt>
+    <dd>opc-ua サーバーノードに対するコマンドobject。 {"opcuaCommand":"setFolder"};</dd>
+    <dt>topic <span class="property-type">string</span></dt>
+    <dd>opc-ua サーバーノードに対するコマンドobjectのコマンドパラメータ。</dd>
+</dl>
+
+<h3>出力メッセージ2 </h3>
+<dl class="message-properties">
+    <dt>payload <span class="property-type">string | number | array</span></dt>
+    <dd>opc-ua クライアントノード(write)に対する、書き込みデータ。</dd>
+    <dt>topic <span class="property-type">string</span></dt>
+    <dd>opc-ua クライアントノード(write)への書き込み対象nodeId</dd>
+</dl>
+
+<h3>機能詳細</h3>
+<p>入力メッセージにia-cloud objectを受け、objectKeyと各property名称からOPC-UA nodeIdを自動生成し、</p>
+<p>OPC-UAサーバノードに登録を行うためメッセージ出力1に登録コマンドを出力する。</p>
+<p>既に登録済みのnodeIdの場合は、OPC-UAクライアントノード（write機能に設定）に対し、変化のあったdataや</p>
+<p>property値の書き込みを行うためメッセージ出力2に書き込みコマンドを出力する。</p>
+
+</script>

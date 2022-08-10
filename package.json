@@ -1,0 +1,36 @@
+{
+  "name": "@ia-cloud/node-red-contrib-ia-cloud-opcua",
+  "description": "ia-cloud Node-RED nodes for OPC-UA Server",
+  "version": "0.0.1",
+  "author": "ia-cloud project members",
+  "bugs": {
+    "url": "https://github.com/ia-cloud/node-red-contrib-ia-cloud-opcua/issues"
+  },
+  "dependencies": {
+    "moment": "^2.24.0"
+  },
+  "devDependencies": {
+    "eslint": "^6.5.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.18.2"
+  },
+  "keywords": [
+    "node-red",
+    "opc-ua"
+  ],
+  "license": "Apache-2.0",
+  "main": "iaCloud2opcua.js",
+  "node-red": {
+    "nodes": {
+      "iaCloud2opcua": "iaCloud2opcua.js"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/ia-cloud/node-red-contrib-ia-cloud-opcua.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "homepage": "https://github.com/ia-cloud/node-red-contrib-ia-cloud-opcua#readme"
+}

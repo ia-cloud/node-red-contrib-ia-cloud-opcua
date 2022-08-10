@@ -1,0 +1,53 @@
+<!--
+  Copyright JS Foundation and other contributors, http://js.foundation
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  http://www.apache.org/licenses/LICENSE-2.0
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<script type="text/html" data-help-name="ia-cloud2opc-ua">
+    <p>register ia-cloud object to OPC-UA server</p>
+
+<h3>properties</h3>
+<dl class="message-properties">
+    <dt>namespace No.<span class="property-type">number</span></dt>
+    <dd>No. of OPC-UA namespace. fixed to ns=1</dd>
+    <dt>namespace name<span class="property-type">string</span></dt>
+    <dd>name of OPC-UA namespace. automatically generated and fixed</dd>
+    <dt>node name<span class="property-type">string</span></dt>
+    <dd>node instance name</dd>
+</dl>
+
+<h3>input message</h3>
+<dl class="message-properties">
+    <dt>dataObject <span class="property-type">object</span></dt>
+    <dd><code>ia-cloud dataObject</code>supporsed to be registered and written</dd>
+</dl>
+
+<h3>output message1 </h3>
+<dl class="message-properties">
+    <dt>payload <span class="property-type">object</span></dt>
+    <dd>command object to opc-ua server Node-RED node。 {"opcuaCommand":"setFolder"};</dd>
+    <dt>topic <span class="property-type">string</span></dt>
+    <dd>command parameters to opc-ua server Node-RED node。</dd>
+</dl>
+
+<h3>output message2 </h3>
+<dl class="message-properties">
+    <dt>payload <span class="property-type">string | number | array</span></dt>
+    <dd>data to be written to opc-ua server Node-RED node through a ppc-ua write client</dd>
+    <dt>topic <span class="property-type">string</span></dt>
+    <dd>opc-ua nodeId for opc-ua client node to write data</dd>
+</dl>
+
+<h3>detailes</h3>
+<p>Receive ia-cloud object in input message, automatically generate OPC-UA nodeId from objectKey and each property name,</p>
+<p>then output the registration command to message output 1 to register with the OPC-UA server node. </p>
+<p>If the nodeId has already been registered, output the write command to message output 2 for the OPC-UA client node (set to the write function)</p>
+<p>in order to write the the changed data and/or property values </p>
+</script>

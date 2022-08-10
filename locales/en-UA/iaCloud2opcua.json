@@ -1,0 +1,12 @@
+{
+    "editor": {
+        "paletteLabel": "ia-cloud2opc-ua",
+        "name": "node name",
+        "namespace": "name space",
+        "folder": "folder name"
+    },
+    "runtime": {
+        "ready": "waiting",
+        "output": "data sent"
+    }
+}

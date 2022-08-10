@@ -1,0 +1,12 @@
+{
+    "editor": {
+        "paletteLabel": "ia-cloud2opc-ua",
+        "name": "ノード名称",
+        "namespace": "名前空間名",
+        "folder": "フォルダー名"
+    },
+    "runtime": {
+        "ready": "入力待ち",
+        "output": "データ送出"
+    }
+}
