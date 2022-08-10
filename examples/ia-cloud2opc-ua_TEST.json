@@ -1,0 +1,453 @@
+[
+    {
+        "id": "bf285bd40f24756f",
+        "type": "tab",
+        "label": "フロー 3",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "db68141d4443ce93",
+        "type": "debug",
+        "z": "bf285bd40f24756f",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 530,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "8988946fa0186288",
+        "type": "debug",
+        "z": "bf285bd40f24756f",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 530,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "f662c5011ca735bc",
+        "type": "PLC-Modbus",
+        "z": "bf285bd40f24756f",
+        "name": "",
+        "comNode": "bad30b61cd71afdf",
+        "contentType": "ModbusPLC",
+        "storeInterval": "600",
+        "storeAsync": false,
+        "objectKey": "rest-key",
+        "objectDescription": "説明",
+        "qInfo": true,
+        "configReady": "ready",
+        "dataItems": [
+            {
+                "itemType": "bit",
+                "dataName": "ビット",
+                "bit": {
+                    "deviceType": "Coil",
+                    "address": 100,
+                    "form": "opStatus",
+                    "logic": "pos"
+                }
+            },
+            {
+                "itemType": "number",
+                "dataName": "数値",
+                "number": {
+                    "deviceType": "HR",
+                    "address": 100,
+                    "type": "1w",
+                    "encode": "unsigned",
+                    "offset": 0,
+                    "gain": 1,
+                    "unit": ""
+                }
+            },
+            {
+                "itemType": "string",
+                "dataName": "文字列",
+                "string": {
+                    "deviceType": "HR",
+                    "address": 340,
+                    "number": 20,
+                    "encode": "utf-8"
+                }
+            },
+            {
+                "itemType": "numList",
+                "dataName": "数値列",
+                "numList": {
+                    "deviceType": "HR",
+                    "address": 100,
+                    "number": 4,
+                    "type": "1w",
+                    "encode": "unsigned"
+                }
+            }
+        ],
+        "x": 170,
+        "y": 140,
+        "wires": [
+            [
+                "a11775ede260c8b6"
+            ]
+        ]
+    },
+    {
+        "id": "816b766079346e22",
+        "type": "OpcUa-Server",
+        "z": "bf285bd40f24756f",
+        "port": "53880",
+        "name": "UaServerTest",
+        "endpoint": "UA/ia-cloud-test",
+        "users": "users.json",
+        "nodesetDir": "",
+        "folderName4PKI": "",
+        "autoAcceptUnknownCertificate": true,
+        "registerToDiscovery": false,
+        "constructDefaultAddressSpace": true,
+        "allowAnonymous": true,
+        "endpointNone": true,
+        "endpointSign": true,
+        "endpointSignEncrypt": true,
+        "endpointBasic128Rsa15": true,
+        "endpointBasic256": true,
+        "endpointBasic256Sha256": true,
+        "maxNodesPerBrowse": 0,
+        "maxNodesPerHistoryReadData": 0,
+        "maxNodesPerHistoryReadEvents": 0,
+        "maxNodesPerHistoryUpdateData": 0,
+        "maxNodesPerRead": 0,
+        "maxNodesPerWrite": 0,
+        "maxNodesPerMethodCall": 0,
+        "maxNodesPerRegisterNodes": 0,
+        "maxNodesPerNodeManagement": 0,
+        "maxMonitoredItemsPerCall": 0,
+        "maxNodesPerHistoryUpdateEvents": 0,
+        "maxNodesPerTranslateBrowsePathsToNodeIds": 0,
+        "maxConnectionsPerEndpoint": 20,
+        "maxMessageSize": 4096,
+        "maxBufferSize": 4096,
+        "x": 550,
+        "y": 200,
+        "wires": [
+            [
+                "fabb0c9bf7d3e851"
+            ]
+        ]
+    },
+    {
+        "id": "e032ee208819d82e",
+        "type": "OpcUa-Client",
+        "z": "bf285bd40f24756f",
+        "endpoint": "1e0ad747ef4038c1",
+        "action": "write",
+        "deadbandtype": "a",
+        "deadbandvalue": 1,
+        "time": 10,
+        "timeUnit": "s",
+        "certificate": "n",
+        "localfile": "",
+        "localkeyfile": "",
+        "securitymode": "None",
+        "securitypolicy": "None",
+        "folderName4PKI": "",
+        "name": "WRITE",
+        "x": 530,
+        "y": 260,
+        "wires": [
+            [
+                "33a7ba8be6740998"
+            ]
+        ]
+    },
+    {
+        "id": "fabb0c9bf7d3e851",
+        "type": "debug",
+        "z": "bf285bd40f24756f",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 750,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "33a7ba8be6740998",
+        "type": "debug",
+        "z": "bf285bd40f24756f",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 750,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "a11775ede260c8b6",
+        "type": "iaCloud2opcua",
+        "z": "bf285bd40f24756f",
+        "name": "TESTサーバ",
+        "ns": "1",
+        "namespace": "自動",
+        "folder": "ia-cloud-objects",
+        "justValue": true,
+        "x": 270,
+        "y": 220,
+        "wires": [
+            [
+                "816b766079346e22",
+                "db68141d4443ce93"
+            ],
+            [
+                "e032ee208819d82e",
+                "8988946fa0186288"
+            ]
+        ]
+    },
+    {
+        "id": "2ca278d3cc2d4621",
+        "type": "inject",
+        "z": "bf285bd40f24756f",
+        "name": "リードトリガ",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 130,
+        "y": 60,
+        "wires": [
+            [
+                "f662c5011ca735bc"
+            ]
+        ]
+    },
+    {
+        "id": "ce4670fff24e5426",
+        "type": "PLC-sim",
+        "z": "bf285bd40f24756f",
+        "interval": 1,
+        "name": "",
+        "x": 350,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "cdaed81abac34f39",
+        "type": "tmp-ctrl-omron",
+        "z": "bf285bd40f24756f",
+        "name": "",
+        "ModbusCom": "bad30b61cd71afdf",
+        "contentType": "iaCloudData",
+        "storeInterval": "600",
+        "storeAsync": false,
+        "objectKey": "omron温調計",
+        "objectDescription": "",
+        "qInfo": false,
+        "configReady": "ready",
+        "dataItems": [
+            {
+                "item": "pv",
+                "dataName": "現在値",
+                "unit": ""
+            },
+            {
+                "item": "pro",
+                "dataName": "比例帯",
+                "unit": ""
+            },
+            {
+                "item": "pv",
+                "dataName": "現在値",
+                "unit": ""
+            }
+        ],
+        "x": 160,
+        "y": 360,
+        "wires": [
+            [
+                "a11775ede260c8b6"
+            ]
+        ]
+    },
+    {
+        "id": "d53ae585b44c9299",
+        "type": "OpcUa-Client",
+        "z": "bf285bd40f24756f",
+        "endpoint": "1e0ad747ef4038c1",
+        "action": "browse",
+        "deadbandtype": "a",
+        "deadbandvalue": 1,
+        "time": 10,
+        "timeUnit": "s",
+        "certificate": "n",
+        "localfile": "",
+        "localkeyfile": "",
+        "securitymode": "None",
+        "securitypolicy": "None",
+        "folderName4PKI": "",
+        "name": "",
+        "x": 540,
+        "y": 420,
+        "wires": [
+            [
+                "fabb0c9bf7d3e851"
+            ]
+        ]
+    },
+    {
+        "id": "a0b3a033d10eea7f",
+        "type": "inject",
+        "z": "bf285bd40f24756f",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "ns=1;s=ia-cloud-objects",
+        "payload": "",
+        "payloadType": "str",
+        "x": 330,
+        "y": 580,
+        "wires": [
+            [
+                "d53ae585b44c9299"
+            ]
+        ]
+    },
+    {
+        "id": "1332ab75debea4fe",
+        "type": "inject",
+        "z": "bf285bd40f24756f",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "ns=1;s=omron温調計",
+        "payload": "",
+        "payloadType": "str",
+        "x": 320,
+        "y": 700,
+        "wires": [
+            [
+                "d53ae585b44c9299"
+            ]
+        ]
+    },
+    {
+        "id": "04ac6a8294117460",
+        "type": "inject",
+        "z": "bf285bd40f24756f",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "ns=1;s=rest-key",
+        "payload": "",
+        "payloadType": "str",
+        "x": 300,
+        "y": 640,
+        "wires": [
+            [
+                "d53ae585b44c9299"
+            ]
+        ]
+    },
+    {
+        "id": "bad30b61cd71afdf",
+        "type": "Modbus-com",
+        "name": "",
+        "refreshCycle": "1",
+        "maxDataNum": "64",
+        "noBlank": false,
+        "comType": "PLCSim",
+        "TCPPort": "502",
+        "IPAdd": "192.168.1.20",
+        "unitID": "255",
+        "serialPort": "",
+        "serialAdd": "1",
+        "baud": "115200",
+        "parity": "even",
+        "requiredSet": "ready"
+    },
+    {
+        "id": "1e0ad747ef4038c1",
+        "type": "OpcUa-Endpoint",
+        "endpoint": "opc.tcp://localhost:53880",
+        "secpol": "None",
+        "secmode": "None",
+        "none": false,
+        "login": false,
+        "usercert": false,
+        "usercertificate": "",
+        "userprivatekey": ""
+    }
+]
