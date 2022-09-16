@@ -16,6 +16,7 @@
   },
   "keywords": [
     "node-red",
+    "ia-cloud",
     "opc-ua"
   ],
   "license": "Apache-2.0",
