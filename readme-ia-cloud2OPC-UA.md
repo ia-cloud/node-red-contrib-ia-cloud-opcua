@@ -6,8 +6,7 @@ Node-RED node to convert from ia-cloud object to OPC-UA server deta item.
 ## functionality detailes
 
 ### OPC-UA folder to store variables
-OPC-UA server item node would add folder to /Objects with name of node property [folder name].
-If new objectKey of ia-cloud object recieved form input message, would add new subfolder with name of [objectKey] to the folder /Objects/[folder name]. all property of ia-cloud object would be added as OPC-UA variables under this each objectKey folder.
+OPC-UA server item node would add a folder to /Objects with the name of node property [folder name]. If the new objectKey of the ia-cloud object received form input message, would add a new subfolder with the name of [objectKey] to the folder /Objects/[folder name]. all properties of the ia-cloud object would be added as OPC-UA variables under this each objectKey folder.
 
 dataItems do not have commonName
 ```
