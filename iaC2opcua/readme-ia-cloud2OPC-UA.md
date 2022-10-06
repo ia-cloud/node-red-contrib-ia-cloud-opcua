@@ -1,7 +1,7 @@
 # ia-cloud object --> OPC-UA server item 
 
 ## functional summary
-Node-RED node to convert from ia-cloud object to OPC-UA server deta item.
+Node-RED node to convert from ia-cloud objects to OPC-UA server deta items.
 
 ## functionality detailes
 
