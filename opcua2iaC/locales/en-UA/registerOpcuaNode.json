@@ -1,0 +1,28 @@
+{
+  "editor": {
+    "name": "node name",
+    "paletteLabel": "Register OPC UA Node for ia-cloud",
+    "tab": {
+      "object-settings": "object configuration",
+      "data-settings": "dataitem configuration"
+    },
+
+    "initialDelay": "scan initial delay(sec)",
+    "period": "scan rate(sec)",
+    "objectKey": "object key",
+    "objectKeyholder": "required: unique key",
+    "objectDescription": "object description",
+
+    "contentType": "content type",
+    "dataName": "data name",
+    "unit": "unit",
+    "nodeId": "node id",
+
+    "output1": "Connect to \"Send OPC UA Data to ia-cloud\" node",
+    "output2": "Connect to \"OpcUa-Client\" node"
+  },
+  "runtime": {
+    "ready": "Ready",
+    "sent": "Data is sent"
+  }
+}

@@ -23,7 +23,9 @@
   "main": "iaCloud2opcua.js",
   "node-red": {
     "nodes": {
-      "iaCloud2opcua": "iaC2opcua/iaCloud2opcua.js"
+      "iaCloud2opcua": "iaC2opcua/iaCloud2opcua.js",
+      "registerOpcuaNode": "opcua2iaC/registerOpcuaNode.js",
+      "opcua2iaCloud": "opcua2iaC/opcua2iaCloud.js"
     }
   },
   "repository": {

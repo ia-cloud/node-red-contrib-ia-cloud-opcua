@@ -1,0 +1,10 @@
+{
+  "editor": {
+    "name": "ノード名称",
+    "paletteLabel": "Send OPC UA Data to ia-cloud"
+  },
+  "runtime": {
+    "ready": "入力待ち",
+    "sent": "データ送出"
+  }
+}

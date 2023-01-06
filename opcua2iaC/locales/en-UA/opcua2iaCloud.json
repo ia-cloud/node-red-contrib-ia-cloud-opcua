@@ -1,0 +1,10 @@
+{
+  "editor": {
+    "name": "node name",
+    "paletteLabel": "Send OPC UA Data to ia-cloud"
+  },
+  "runtime": {
+    "ready": "Ready",
+    "sent": "Data is sent"
+  }
+}
