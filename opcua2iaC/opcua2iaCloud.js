@@ -32,11 +32,11 @@ module.exports = function (RED) {
             this._objs.push(in_msg);
         }
         
-        this.sendToIaC = function (in_msg){
+        this.sendToIaC = function (nodeId, in_msg){
             let self = this;
             self._objs.forEach(obj => {
                 obj.objectContent.contentData.forEach(item => {
-                    if(item.nodeId == in_msg.topic){
+                    if(item.nodeId == nodeId){
                         //  create message
                         let ia_msg={ request: "store", dataObject: { objectContent: {} } };
             
@@ -48,11 +48,19 @@ module.exports = function (RED) {
                         ia_msg.dataObject.quality = "good";
                         
                         let contentData = [];
+                        //  When read has bad status, behaviors between single read and multiple read are different.
+                        //  Single read: status is stored in msg.statusCode
+                        //  Multiple read: status is not stored. But msg.payload is set null.
                         let contentItem = {
                             dataName: item.dataName,
                             dataValue: in_msg.payload,
-                            quality: in_msg.statusCode.value == 0 ? "good" : "bad"
+                            quality: in_msg.payload == null? "bad" : "good" //  set "good" only when payload is not null.
                          };
+                         // if msg has status code, check the value and if the value is GOOD(0), set "good"
+                         if (in_msg.statusCode) {
+                            contentItem.quality = in_msg.statusCode.value == 0 ? "good" : "bad"
+                         }
+                         
                          if (item.unit && (item.unit != "")) {
                             contentItem.unit = item.unit;
                          }
@@ -68,9 +76,16 @@ module.exports = function (RED) {
 
         this.on("input", function (msg) {
             let self = this;
-            if (msg.topic != undefined) {
+            if ((msg.topic != undefined) && (msg.topic != null)) {
                 //  topic is there
-                self.sendToIaC(msg);
+                if (typeof(msg.topic) == "string"){
+                    //  single read's topic is string (Node ID)
+                    self.sendToIaC(msg.topic, msg);
+                }
+                else if ((typeof(msg.topic) == "object") && (msg.topic.nodeId != undefined)){
+                    //  multiple read's topic is object. Node ID is stored in msg.topic.nodeId
+                    self.sendToIaC(msg.topic.nodeId, msg);
+                }
             }
             else {
                 //  no topic -> register information
