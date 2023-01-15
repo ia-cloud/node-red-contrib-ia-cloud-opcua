@@ -33,6 +33,7 @@ module.exports = function (RED) {
         this._obj.objectContent.contentData = [];
         config.dataItems.forEach(item => { this._obj.objectContent.contentData.push(Object.assign({}, item)); })
 
+        this._action = config.action;
         this._sent = false;
         this.sendMsg = function() {
             let self = this;
@@ -42,27 +43,34 @@ module.exports = function (RED) {
             let regMsg = null;
             if (!self._sent){
                 regMsg = self._obj;
-                self._sent = true;
             }
 
             //  create 2nd message to read from OPC UA node
-            let nodeIdsMsg = [];
-            let nodeIds = [];
-            self._obj.objectContent.contentData.forEach(function(item) {
-                let nodeId = { topic: item.nodeId };
-                nodeIds.push(nodeId);
-            });
-            nodeIdsMsg.push(nodeIds)
+            let OpcMsgs = [];
+            if (!self._sent || (self._action == "read")) {
+                self._obj.objectContent.contentData.forEach(function(item) {
+                    let nodeId = { topic: item.nodeId };
+                    OpcMsgs.push(nodeId);
+                });
+            }
+            if (self._action == "readmultiple") {
+                let readMsg = { topic: "readmultiple" };
+                OpcMsgs.push(readMsg);
+            }
 
-            self.send([regMsg, nodeIds]);
+            //  send and set status
+            self.send([regMsg, OpcMsgs]);
             self.status({fill:"green", shape:"dot", text:"runtime.sent"});
+            
+            self._sent = true;
         };
 
         let initialDelay = config.delay;
-        if (!initialDelay){ //  if delay value is undefined or null, set 0
-            initialDelay = 0;
-        }
         this._interval = config.interval;
+        //  if subscribe OR interval value is undefined or null, set 0
+        if ((this._action == "subscribe") || (!this._interval)){
+            this._interval = 0;
+        }
 
         //  for check interval.
         this._lastInterval = Date.now() - (this._interval * 1000) + (initialDelay * 1000);
@@ -72,7 +80,7 @@ module.exports = function (RED) {
             node.status({fill:"green", shape:"dot", text:"runtime.ready"});
 
             let current = Date.now();
-            if (self._interval > 0) {
+            if ((self._interval > 0) || ((self._action == "subscribe") && !self._sent)) {
                 if (current - (self._lastInterval) >= (self._interval * 1000)) {
                     self._lastInterval = current;
                     self.sendMsg();
@@ -83,7 +91,15 @@ module.exports = function (RED) {
         //  input -> output message
         this.on("input", function (msg) {
             let self = this;
-            self.sendMsg();
+            //  ignore input when action is subscribe
+            if (self._action != "subscribe"){
+                self.sendMsg();
+            }
+        });
+
+        //  close -> terminate timer
+        this.on("close", function () {
+            clearInterval(this._timerid);
         });
     }
 

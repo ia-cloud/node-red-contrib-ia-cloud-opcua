@@ -16,9 +16,21 @@
 
  <script type="text/html" data-template-name="registerOpcuaNode">
 
-    <!-- 隠しのNodeプロパティ -->
+    <!-- hidden property -->
     <div class="form-row" hidden>
       <input type="text" id="node-input-configReady">
+    </div>
+
+    <!-- OPC Action -->
+    <div class="form-row" id="action-block">
+      <label for="node-input-action" style= "vertical-align: middle;">
+        <span data-i18n="editor.action"></span>
+      </label>
+      <select type="text" id="node-input-action" style="width:72%;">
+        <option value="read">READ</option>
+        <option selected value="readmultiple">READ MULTIPLE</option>
+        <option value="subscribe">SUBSCRIBE</option>
+      </select>
     </div>
     
     <!-- Tab, ownself -->
@@ -40,7 +52,7 @@
           <input type="number" id="node-input-delay" min="0" step="1" value="60" style="display: inline-block; width: 120px;">
         </div>
 
-        <div class="form-row">
+        <div class="form-row" id="node-input-intervalrow">
           <label style="width:150px;" for="node-input-interval">
             <span data-i18n="editor.period"></span>
           </label>
@@ -95,6 +107,8 @@
       defaults: {
         // node properties
         name: {value:""},
+        //  OPC action
+        action: {value: "readmultiple", required: true},
         // object properties
         delay: {value:"5"},
         interval: {value:"60"},
@@ -103,7 +117,7 @@
         // dataItems property
         contentType: {value: "iaCloudData", required: true},
         dataItems: {value:[{}]},
-        // 必須項目が揃っているかのflag、Nodeに赤三角を表示するために必要
+        // to show red-triangle when necessary configurations aren't set.
         configReady: {value: "", required: true}
       },
       inputs:1,
@@ -112,7 +126,7 @@
             if (index === 0) return this._("editor.output1");
             else if (index === 1) return this._("editor.output2");
       },
-      icon: "ia-cloud.png",  //アイコンはTBD
+      icon: "ia-cloud.png",
       label: function() {
           return this.name||this._("editor.paletteLabel");
       },
@@ -129,7 +143,7 @@
         const labelUnit = node._("editor.unit");
         const labelNodeID = node._("editor.nodeId");
         
-        // editableList item のhtml要素
+        // html elements for editableList item
         const itemData =`
           <label style="width:80px; display:inline-block; text-align:left;">${labelDataName}</label>
           <input required="required" type="text" style="display:inline-block; text-align:left; width:150px; margin-right: 20px;" class="dataName" placeholder="${labelDataName}">
@@ -171,7 +185,7 @@
             let div1 = $('<div></div>').appendTo(container);
             let div2 = $('<div></div>',{style:"margin-top:8px;"}).appendTo(container);
   
-            // 追加ボタンが押されたら、dItemは 空{} で呼ばれます。
+            // When add button is clicked, dItem would be empty object
             if(!Object.keys(dItem).length) {
               dItem = {
                 dataName:"",
@@ -191,28 +205,41 @@
             div2.find(".nodeId").val(dItem.nodeId);
           },
           
-          // リストの順番が変わったら呼ばれる。
+          // When the order of list is changed
           sortItems: function(items) {
             items.each(function(i, elm){
-              // 番号を降り直し
+              // re-set index number
               elm.find(".index").text((i + 1) + ":");
             });
           },
           
-          // リストの項目が削除されたら呼ばれる。
+          // When remove item(s) in the list
           removeItem: function(dItem){
             let items = $('#node-input-dItemcontainer').editableList("items");
             items.each(function(i, elm){
-              // 番号を降り直し
+              // re-set index number
               elm.find(".index").text((i + 1) + ":");
             });
           }
         });
   
-        // Nodeの設定パラメータを取り出し、editableListに登録
+        //  Get nodes' paremeter and register them to the list.
         for (let i=0; i<node.dataItems.length; i++) {
           $("#node-input-dItemcontainer").editableList('addItem',node.dataItems[i]);
         }
+
+        //  to control interval row show/hide
+        //  when opc action is subscribe, don't need to set internal value
+        var inputAction = $('#node-input-action');
+        var inputInterval = $('#node-input-intervalrow');
+        inputAction.change(function(){
+          if (inputAction.val() == "subscribe"){
+            inputInterval.hide();
+          }
+          else {
+            inputInterval.show();
+          }
+        });
       },
   
       oneditsave: function() {
@@ -220,7 +247,7 @@
         let configReady = "ready";
         let items = $("#node-input-dItemcontainer").editableList('items');
   
-        // データ設定を作成
+        // Create data items
         node.dataItems = [];
         
         items.each(function(i, elm){
@@ -230,44 +257,45 @@
             nodeId: elm.find(".nodeId").val()
             }
           
-          // 必須propertyが揃っているか？
+          // Check necessary properties
           if (!item.dataName) configReady = "";
           if (!item.nodeId) configReady = "";
           
           node.dataItems.push(item);
         });
         
-        // objectKeyはある？
+        // Check object key
         if (!$("#node-input-objectKey").val()) configReady = "";
-        // contentTypeはある？
+        // Check object contentType
         if (!$("#node-input-contentType").val()) configReady = "";
-        // データ設定が一つはある？
+        // Check data items are existed at least one.
         if (!node.dataItems.length) configReady = "";
   
-        // 設定完了フラグをセット
+        //  set ready flag
         $("#node-input-configReady").val(configReady);
       },
   
       oneditresize: function(size) {
         if ($("#tab-dItem-property").is(":visible")) {
-          // エディタがリサイズされたら
+          // When editor is resized
           let height = size.height;
-          // Tab以外の部分の高さを引く
+          // remove height of contens excepted Tab
+          height -= $("#action-block").outerHeight(true);
           height -= $("#name-block").outerHeight(true);
           
-          // dataItemプロパティTab内の、editableList以外の行の高さを引く
+          // remove height excepted list in property of dataItems
           rows = $("#tab-dItem-property>div:not(.node-input-dItemcontainer-row)");
           for (let i=0; i<rows.length; i++) {
             height -= $(rows[i]).outerHeight(true);
           }
-          // タブの部分の高さ（大体）
+          // the height of tab itselt. (almost 60)
           height -= 60;
           
-          // editableListのマージンを引く
+          // remove margin of list
           const editorRow = $("#tab-dItem-property>div.node-input-dItemcontainer-row");
           height -= (parseInt(editorRow.css("marginTop"))+parseInt(editorRow.css("marginBottom")));
           
-          // editableListの高さを設定。editableListが非表示の時は正しく動作しない。
+          // set height of list. When height is not visible, this code won't work well.
           $("#node-input-dItemcontainer").editableList('height',height);
         }
       }

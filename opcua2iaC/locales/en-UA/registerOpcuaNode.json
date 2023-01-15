@@ -7,6 +7,7 @@
       "data-settings": "dataitem configuration"
     },
 
+    "action": "OPC Action",
     "initialDelay": "scan initial delay(sec)",
     "period": "scan rate(sec)",
     "objectKey": "object key",

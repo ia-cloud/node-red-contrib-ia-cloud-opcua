@@ -7,6 +7,7 @@
       "data-settings": "データの設定"
     },
 
+    "action": "OPC Action",
     "initialDelay": "起動後待機(秒)",
     "period": "定期収集周期(秒)",
     "objectKey": "オブジェクトキー",
