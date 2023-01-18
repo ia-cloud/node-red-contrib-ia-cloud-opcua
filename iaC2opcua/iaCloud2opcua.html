@@ -23,12 +23,19 @@
         <!-- propertyの設定 -->
         <div class="form-row">
             <label for="node-input-ns" ><span data-i18n="editor.namespace"></span></label>
-            <input type="number" id="node-input-ns" disabled= "disabled" style="width:80px; text-align: right;" min="1">
-            <input type="text" id="node-input-namespace" disabled= "disabled" style="margin-left:10px; width:150px; text-align: left;">
+            <input type="number" id="node-input-ns" style="width:80px; text-align: right;" min="1">
         </div>
+        <div class="form-row form-tips" id="ns-tips" hidden="hidden">
+            <span data-i18n="editor.ns-tips"></span>
+        </div>
+
         <div class="form-row">
             <label for="node-input-folder" ><span data-i18n="editor.folder"></span></label>
             <input type="text" id="node-input-folder" data-i18n="[placeholder]editor.folder">
+        </div>
+        <div class="form-row">
+            <label for="node-input-initialDelay" ><span data-i18n="editor.initialDelay"></span></label>
+            <input type="number" id="node-input-initialDelay" style="width:80px; text-align: right;" min="1">
         </div>
     </div>  
 
@@ -52,9 +59,8 @@
         defaults: {
             name: {value: ""},
             ns: {value: "1"},
-            namespace:{value: "自動"},
             folder: {value: "ia-cloud-objects", required: true},
-            justValue: {value: true}
+            initialDelay: {value: "10", required: true}
         },
         inputs:1,
         outputs:2,
@@ -71,6 +77,14 @@
         },
         paletteLabel: function() {
             return this._("editor.paletteLabel") || "iaCloud2opcua";
+        },
+        oneditprepare: function() {
+            // Namespace index
+            $("#node-input-ns").on("change", function () {
+                if ($("#node-input-ns").val() !== "1") $("#ns-tips").prop("hidden", false);
+                else $("#ns-tips").prop("hidden", true);                    
+            });
+            $("#node-input-ns").change()
         }
     });
 

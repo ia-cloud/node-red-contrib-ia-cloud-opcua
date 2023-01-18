@@ -16,9 +16,10 @@
 <h3>プロパティ項目</h3>
 <dl class="message-properties">
     <dt>名前空間番号<span class="property-type">number</span></dt>
-    <dd>名前空間を示す番号。現在のところ変更不可。ns=1 に固定</dd>
-    <dt>名前空間名称<span class="property-type">string</span></dt>
-    <dd>名前空間を示す名称。自動で付与(urn:host名:NodeOPCUA-Server)される現在のところ変更不可。</dd>
+    <dd>名前空間を示す番号。ns=1がUAサーバのデフォルトNamespaceです。ns=1以外を設定する場合、
+        その番号の既存のNamespaceと競合する恐れがあります。またその番号のNamespaceが存在しない場合はエラーとなります。</dd>
+    <dt>起動後待機(秒)<span class="property-type">string</span></dt>
+    <dd>フローの起動時にOPC-UAサーバの起動を待機する必要の場合、待機時間を秒数で設定。</dd> 
     <dt>ノード名称<span class="property-type">string</span></dt>
     <dd>ノード毎に付与する任意の名称</dd>
 </dl>

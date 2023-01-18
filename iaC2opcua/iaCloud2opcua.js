@@ -26,6 +26,7 @@ module.exports = function(RED) {
         const node = this;
         const ns = config.ns;
         const objRoot = config.folder;
+        const initialDelay = config.initialDelay * 1000;
 
         let msgs = [];
         // message out for register name space to OPC server
@@ -49,7 +50,7 @@ module.exports = function(RED) {
             // update node status
             node.status({fill:"green", shape:"dot", text:"runtime.ready"});
     
-        }, 3000)
+        }, initialDelay)
         
 
 
