@@ -1,6 +1,6 @@
 {
     "editor": {
-        "paletteLabel": "opcUAサーバ変換",
+        "paletteLabel": "ia-cloud->UA",
         "name": "ノード名称",
         "namespace": "名前空間番号",
         "ns-tips": "ns=1がUAサーバのデフォルトNamespaceです。ns=1以外を設定する場合、その番号の既存のNamespaceと競合する恐れがあります。またその番号のNamespaceが存在しない場合はエラーとなります。",
