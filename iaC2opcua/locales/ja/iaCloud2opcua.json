@@ -1,9 +1,11 @@
 {
     "editor": {
-        "paletteLabel": "ia-cloud2opc-ua",
+        "paletteLabel": "ia-cloud->UA",
         "name": "ノード名称",
-        "namespace": "名前空間名",
-        "folder": "フォルダー名"
+        "namespace": "名前空間番号",
+        "ns-tips": "ns=1がUAサーバのデフォルトNamespaceです。ns=1以外を設定する場合、その番号の既存のNamespaceと競合する恐れがあります。またその番号のNamespaceが存在しない場合はエラーとなります。",
+        "folder": "フォルダー名",
+        "initialDelay": "起動後待機(秒)"
     },
     "runtime": {
         "ready": "入力待ち",

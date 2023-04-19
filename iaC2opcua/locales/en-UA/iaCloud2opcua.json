@@ -1,6 +1,6 @@
 {
     "editor": {
-        "paletteLabel": "ia-cloud2opc-ua",
+        "paletteLabel": "ia-cloud->UA",
         "name": "node name",
         "namespace": "name space",
         "folder": "folder name"
