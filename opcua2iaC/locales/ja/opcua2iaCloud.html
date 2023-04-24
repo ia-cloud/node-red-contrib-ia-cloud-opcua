@@ -11,6 +11,33 @@
   limitations under the License.
 -->
 <script type="text/html" data-help-name="opcua2iaCloud">
-    <p>Send OPC UA Data to ia-cloud</p>
+    <p>UA->ia-cloud: OPC UA Serverデータのia-Cloudへの出力</p>
 
+    <h3>プロパティ項目</h3>
+      <dt>ノード名称<span class="property-type">文字列</span></dt>
+      <dd>ノード毎に付与する任意の名称を設定します。</dd>
+    </dl>
+    
+    <h3>入力</h3>
+    <dl class="message-properties">
+      <dt>ia-cloud->UAitemノードの出力1</dt>
+      <dd>ia-cloud->UAitemの設定情報を取得します。<br>ia-Cloudへ出力するにはia-cloud->UAitemの設定情報が必要です。</dd>
+
+      <dt>OPC UA Clientノードの出力</dt>
+      <dd>OPC UA Clientノードが読み出したOPC UA Serverのデータを取得します。</dd>
+    </dl>
+    
+    <h3>出力</h3>
+    <dl class="message-properties">
+      <p>ia-cloud接続ノード または オブジェクトアレーノードに接続します。</p>
+    </dl>
+    
+    <h3>機能詳細</h3>
+    <p>
+      本ノードはia-cloud->UAitemノードとOPC UA Clientノードともに使用します。
+    </p>
+    <p>
+      ia-cloud->UAitemノードの出力1とOPC UA Clientノードの出力を本ノードの入力に接続します。<br>
+      本ノードはia-cloud->UAitemノードの設定情報とOPC UA ClientノードからのOPC UA Serverのデータをあわせてia-Cloud接続のメッセージを作成し出力します。
+    </p>
 </script>

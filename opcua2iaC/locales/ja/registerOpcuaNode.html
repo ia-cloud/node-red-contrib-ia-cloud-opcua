@@ -11,6 +11,81 @@
   limitations under the License.
 -->
 <script type="text/html" data-help-name="registerOpcuaNode">
-    <p>Register OPC UA Node for ia-cloud</p>
+    <p>ia-cloud->UAitem: OPC UA itemの登録</p>
 
+    <h3>プロパティ項目</h3>
+    <dl class="message-properties">
+      <dt>OPC Action<span class="property-type">選択</span></dt>
+      <dd>
+        OPC UA Clientで設定するActionを選択します。<br>サポートしているActionは以下の3つです。
+        <ul>
+          <li>READ</li>
+          <li>READ MULTIPLE</li>
+          <li>SUBSCRIBE</li>
+        </ul>
+      </dd>
+
+      <dt>オブジェクトの設定<span class="property-type">タブ</span></dt>
+      <dl class="message-properties" style="margin-left: 8px">
+        <dt>起動後待機(秒)<span class="property-type">数値</span></dt>
+        <dd>フローの起動時にOPC UA Clientノードへの送信を待機する必要の場合、待機時間を秒数で設定します。</dd>
+        
+        <dt>定期収集周期(秒)<span class="property-type">数値</span></dt>
+        <dd>
+          READ、READ MULTIPLEを使用時に定期的にOPC UA Clientノードへ送信をする場合に秒数で設定します。<br>
+          定期収集が不要な場合は0を指定します。<br>
+          SUBSCRIBEを使用する場合、周期指定はOPC UA Clientノードで指定します。
+        </dd>
+        
+        <dt>オブジェクトキー<span class="property-type">文字列</span></dt>
+        <dd>OPC UA Serverのデータ項目に付与するユニークなキー文字列を指定します。</dd>
+        
+        <dt>オブジェクトの説明<span class="property-type">文字列</span></dt>
+        <dd>OPC UA Serverのデータ項目のわかりやすい説明を記載します。</dd>
+      </dl>
+
+      <dt>データの設定<span class="property-type">タブ</span></dt>
+      <dl class="message-properties" style="margin-left: 8px">
+        <dt>データ構造型<span class="property-type">文字列</span></dt>
+        <dd>OPC UA Serverのデータ構造名を指定します。ユーザ定義の組合せを定義しても良いが、デフォルトはiaCloudDataです。</dd>
+
+        <dt>設定リスト<span class="property-type">データ項目リスト</span></dt>
+        <dl class="message-properties" style="margin-left: 8px">
+          <dt>データ名称<span class="property-type">文字列</span></dt>
+          <dd>データ項目につける名称。同一オブジェクトキー内では重複しないよう設定します。</dd>
+          <dt>単位<span class="property-type">文字列</span></dt>
+          <dd>データ項目に付与する単位を指定します。</dd>
+          <dt>ノードID<span class="property-type">文字列</span></dt>
+          <dd>OPC UA Clientで指定するノードIDを指定します。</dd>
+        </dl>
+      </dl>
+
+      <dt>ノード名称<span class="property-type">文字列</span></dt>
+      <dd>ノード毎に付与する任意の名称を設定します。</dd>
+    </dl>
+    
+    <h3>入力</h3>
+    <dl class="message-properties">
+      <p>入力の内容に依存せず、設定されたプロパティに応じて出力します。</p>
+    </dl>
+    
+    <h3>出力1 </h3>
+    <dl class="message-properties">
+      <p>UA->ia-cloudノードに接続します。</p>
+    </dl>
+    
+    <h3>出力2 </h3>
+    <dl class="message-properties">
+      <p>OPC UA Clientノードに接続します。</p>
+    </dl>
+    
+    <h3>機能詳細</h3>
+    <p>
+      本ノードはUA->ia-cloudノードとOPC UA Clientノードとともに使用します。
+    </p>
+    <p>
+      出力1はUA->ia-cloudノードに、出力2はOPC UA Clientノードに接続します。OPC UA Clientノードからの出力は本ノードの出力1で接続したUA->ia-cloudノードに接続します。<br>
+      UA->ia-cloudノードは本ノードからの設定情報とOPC UA ClientノードからのOPC UA Serverのデータをあわせてia-Cloud接続のメッセージを作成し出力します。
+    </p>
+    
 </script>

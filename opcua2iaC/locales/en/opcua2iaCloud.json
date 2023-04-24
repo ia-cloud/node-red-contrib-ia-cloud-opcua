@@ -1,7 +1,7 @@
 {
   "editor": {
-    "name": "node name",
-    "paletteLabel": "Send OPC UA Data to ia-cloud"
+    "name": "Node Name",
+    "paletteLabel": "UA->ia-cloud"
   },
   "runtime": {
     "ready": "Ready",

@@ -1,7 +1,7 @@
 {
   "editor": {
     "name": "ノード名称",
-    "paletteLabel": "OPC UA Node登録 for ia-cloud",
+    "paletteLabel": "ia-cloud->UAitem",
     "tab": {
       "object-settings": "オブジェクトの設定",
       "data-settings": "データの設定"
@@ -19,7 +19,7 @@
     "unit": "単位",
     "nodeId": "ノードID",
 
-    "output1": "\"Send OPC UA Data to ia-cloud\"ノードに接続",
+    "output1": "\"UA->ia-cloud\"ノードに接続",
     "output2": "\"OpcUa-Client\"ノードに接続"
   },
   "runtime": {

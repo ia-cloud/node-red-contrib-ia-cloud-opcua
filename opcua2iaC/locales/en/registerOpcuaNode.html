@@ -1,0 +1,92 @@
+<!--
+  Copyright JS Foundation and other contributors, http://js.foundation
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  http://www.apache.org/licenses/LICENSE-2.0
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<script type="text/html" data-help-name="registerOpcuaNode">
+  <p>ia-cloud->UAitem: Register OPC UA items</p>
+
+  <h3>Properties</h3>
+  <dl class="message-properties">
+    <dt>OPC Action<span class="property-type">select</span></dt>
+    <dd>
+      Set action which is set in OPC UA Client node.<br>The supported actions are following.
+      <ul>
+        <li>READ</li>
+        <li>READ MULTIPLE</li>
+        <li>SUBSCRIBE</li>
+      </ul>
+    </dd>
+
+    <dt>Object Configuration<span class="property-type">tab</span></dt>
+    <dl class="message-properties" style="margin-left: 8px">
+      <dt>Initial Delay(sec)<span class="property-type">number</span></dt>
+      <dd>Set the wait time in seconds if the flow needs to wait for output message to OPC UA Client node at startup.</dd>
+      
+      <dt>Scan Rate(sec)<span class="property-type">number</span></dt>
+      <dd>
+        Set the number of seconds to cyclic output messages to OPC UA Client node when using READ or READ MULTIPLE action.<br>
+        Set 0 when cyclic read from OPC UA Server is not required.<br>
+        When using SUBSCRIBE, configure the interval in OPC UA Client node.
+      </dd>
+      
+      <dt>Object Key<span class="property-type">string</span></dt>
+      <dd>Set a unique key as string which is assigned to data items of OPC UA Server.</dd>
+      
+      <dt>Object Description<span class="property-type">string</span></dt>
+      <dd>Provide description of data items of OPC UA Server.</dd>
+    </dl>
+
+    <dt>DataItem Configuration<span class="property-type">tab</span></dt>
+    <dl class="message-properties" style="margin-left: 8px">
+      <dt>Content Type<span class="property-type">string</span></dt>
+      <dd>Set content type as string. User can define the own content type. The default is "ia-CloudData".</dd>
+
+      <dt>DataItem List<span class="property-type">list</span></dt>
+      <dl class="message-properties" style="margin-left: 8px">
+        <dt>Data Name<span class="property-type">string</span></dt>
+        <dd>Name of data. Data Name should be unique string in Object Key.</dd>
+        <dt>Unit<span class="property-type">string</span></dt>
+        <dd>Set unit as string if required.</dd>
+        <dt>Node ID<span class="property-type">string</span></dt>
+        <dd>Set Node ID to provide to OPC UA Client node.</dd>
+      </dl>
+    </dl>
+
+    <dt>Node Name<span class="property-type">string</span></dt>
+    <dd>Set instance name of this node.</dd>
+  </dl>
+  
+  <h3>Input</h3>
+  <dl class="message-properties">
+    <p>Output message(s) without any dependencies from input message.</p>
+  </dl>
+  
+  <h3>Output 1 </h3>
+  <dl class="message-properties">
+    <p>Connect to UA->ia-cloud node.</p>
+  </dl>
+  
+  <h3>Output 2 </h3>
+  <dl class="message-properties">
+    <p>Connect to OPC UA Client node.</p>
+  </dl>
+  
+  <h3>Descriptions</h3>
+  <p>
+    This node is used with UA->ia-cloud node and OPC UA Client node.
+  </p>
+  <p>
+    Connect Output 1 to UA->ia-cloud node and Output 2 to OPC UA Client node. 
+    Output from OPC UA Client node should be connected to UA->ia-cloud node which is connected from Output 1 of this node.<br>
+    UA->ia-cloud node will create and output ia-Cloud message which is combined the configuration data of this node and OPC UA Server's data which is provided from OPC UA Client node.
+  </p>
+  
+</script>
