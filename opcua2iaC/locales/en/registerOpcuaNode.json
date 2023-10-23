@@ -1,0 +1,29 @@
+{
+  "editor": {
+    "name": "Node Name",
+    "paletteLabel": "ia-cloud->UAitem",
+    "tab": {
+      "object-settings": "Object Configuration",
+      "data-settings": "Dataitem Configuration"
+    },
+
+    "action": "OPC Action",
+    "initialDelay": "Initial Delay(sec)",
+    "period": "Scan Rate(sec)",
+    "objectKey": "Object Key",
+    "objectKeyholder": "Required: Unique Key",
+    "objectDescription": "Object Description",
+
+    "contentType": "Content Type",
+    "dataName": "Data Name",
+    "unit": "Unit",
+    "nodeId": "Node ID",
+
+    "output1": "Connect to \"UA->ia-cloud\" node",
+    "output2": "Connect to \"OpcUa-Client\" node"
+  },
+  "runtime": {
+    "ready": "Ready",
+    "sent": "Data is sent"
+  }
+}

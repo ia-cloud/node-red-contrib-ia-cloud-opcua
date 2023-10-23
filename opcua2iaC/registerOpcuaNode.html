@@ -1,0 +1,305 @@
+<!--
+ * Copyright 2022 Atsushi SHIRAISHI on the ia-cloud project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ -->
+
+ <script type="text/html" data-template-name="registerOpcuaNode">
+
+    <!-- hidden property -->
+    <div class="form-row" hidden>
+      <input type="text" id="node-input-configReady">
+    </div>
+
+    <!-- OPC Action -->
+    <div class="form-row" id="action-block">
+      <label for="node-input-action" style= "vertical-align: middle;">
+        <span data-i18n="editor.action"></span>
+      </label>
+      <select type="text" id="node-input-action" style="width:72%;">
+        <option value="read">READ</option>
+        <option selected value="readmultiple">READ MULTIPLE</option>
+        <option value="subscribe">SUBSCRIBE</option>
+      </select>
+    </div>
+    
+    <!-- Tab, ownself -->
+    <div class="form-row">
+        <ul style="min-width: 500px; margin-bottom: 20px;" id="red-tabs">
+        </ul>
+    </div>
+    
+    <!-- Tab contents -->
+    <div id="tabs-content" style="min-height:250px;">
+      
+      <!-- tab-object-properties starts -->
+      <div id="tab-object-property">
+
+        <div class="form-row">
+          <label style="width:150px;" for="node-input-delay">
+            <span data-i18n="editor.initialDelay"></span>
+          </label>
+          <input type="number" id="node-input-delay" min="0" step="1" value="60" style="display: inline-block; width: 120px;">
+        </div>
+
+        <div class="form-row" id="node-input-intervalrow">
+          <label style="width:150px;" for="node-input-interval">
+            <span data-i18n="editor.period"></span>
+          </label>
+          <input type="number" id="node-input-interval" min="0" step="1" value="60" style="display: inline-block; width: 120px;">
+        </div>
+
+        <div class="form-row">
+          <label style="width:150px;" for="node-input-objectKey">
+            <span data-i18n="editor.objectKey"></span>
+            <span style="color: #ff0000;">*</span>
+          </label>
+          <input required="required" class="form-control" type="text" style="width: 300px" id="node-input-objectKey" data-i18n="[placeholder]editor.objectKeyholder">
+        </div>
+
+        <div class="form-row">
+          <label style="width:150px;" for="node-input-objectdescription">
+            <span data-i18n="editor.objectDescription"></span>
+          </label>
+          <input type="text" style="width: 300px" id="node-input-objectDescription" data-i18n="[placeholder]editor.objectDescription">
+        </div>
+      </div>
+      
+      <!-- tab-dItem-property starts -->
+      <div id="tab-dItem-property">
+        <div class="form-row">
+          <label for="node-input-contentType"><i class="fa fa-tag"></i>
+            <span data-i18n="editor.contentType"></span>
+          </label>
+          <input type="text" id="node-input-contentType" value="iaCloudData">
+        </div>
+        <div class="form-row node-input-dItemcontainer-row">
+          <ol id="node-input-dItemcontainer"></ol>
+        </div>
+      </div>
+    
+    </div>
+    <!-- tab ends -->
+  
+    <div class="form-row" id = name-block>
+      <hr>
+      <label for="node-input-name" ><i class="fa fa-tag"></i><span data-i18n="editor.name"></span></label>
+      <input type="text" class="form-control" id="node-input-name" data-i18n="[placeholder]editor.name">
+    </div>
+    
+  </script>
+  
+  <script type="text/javascript">
+  
+    RED.nodes.registerType('registerOpcuaNode',{
+      category: 'opcua',
+      color:"rgb(231, 180, 100)",
+      defaults: {
+        // node properties
+        name: {value:""},
+        //  OPC action
+        action: {value: "readmultiple", required: true},
+        // object properties
+        delay: {value:"5"},
+        interval: {value:"60"},
+        objectKey: {value:"", required: true},
+        objectDescription: {value:""},
+        // dataItems property
+        contentType: {value: "iaCloudData", required: true},
+        dataItems: {value:[{}]},
+        // to show red-triangle when necessary configurations aren't set.
+        configReady: {value: "", required: true}
+      },
+      inputs:1,
+      outputs:2,
+      outputLabels: function(index) {
+            if (index === 0) return this._("editor.output1");
+            else if (index === 1) return this._("editor.output2");
+      },
+      icon: "ia-cloud.png",
+      label: function() {
+          return this.name||this._("editor.paletteLabel");
+      },
+      labelStyle: function() {
+          return this.name?"node_label_italic":"";
+      },
+      paletteLabel: function() {
+          return this._("editor.paletteLabel") || "Register OPC UA Node for ia-cloud";
+      },
+      oneditprepare: function() {
+        const node = this;
+        // Locale strings
+        const labelDataName = node._("editor.dataName");
+        const labelUnit = node._("editor.unit");
+        const labelNodeID = node._("editor.nodeId");
+        
+        // html elements for editableList item
+        const itemData =`
+          <label style="width:80px; display:inline-block; text-align:left;">${labelDataName}</label>
+          <input required="required" type="text" style="display:inline-block; text-align:left; width:150px; margin-right: 20px;" class="dataName" placeholder="${labelDataName}">
+          <label style="width:auto; display:inline-block; text-align:left;">${labelUnit}</label>
+          <input type="text" style="display:inline-block; text-align:left; width:50px;" class="unit" placeholder="${labelUnit}">
+        `;
+        const itemNodeId =`
+          <span style="display:inline-block; width:30px"> </span>
+          <label style="width:80px; display:inline-block; text-align:left;">${labelNodeID}</label>
+          <input required="required" type="text" style="display:inline-block; text-align:left; width:250px;" class="nodeId" placeholder="${labelNodeID}">
+        `;
+        
+        // Tab
+        const tabs = RED.tabs.create({
+          id: 'red-tabs',
+          onchange(tab) {
+            $('#tabs-content').children().hide();
+            $("#" + tab.id).show();
+            $("#red-tabs").resize();
+        },
+        });
+        tabs.addTab({
+            id: 'tab-object-property',
+            label: this._('editor.tab.object-settings'),
+        });
+        tabs.addTab({
+            id: 'tab-dItem-property',
+            label: this._('editor.tab.data-settings'),
+        });
+  
+        // Define editableList.
+        $('#node-input-dItemcontainer').css('min-height', '150px').css('min-width', '450px').editableList({
+          removable: true,
+          sortable: true,
+          height: 500,
+          
+          // Process when click add button.
+          addItem: function(container, index, dItem) {
+            let div1 = $('<div></div>').appendTo(container);
+            let div2 = $('<div></div>',{style:"margin-top:8px;"}).appendTo(container);
+  
+            // When add button is clicked, dItem would be empty object
+            if(!Object.keys(dItem).length) {
+              dItem = {
+                dataName:"",
+                unit:"",
+                nodeId:""
+              };
+            };
+            
+            $('<span></span>', {class:"index", style:"display:inline-block;text-align:right; width:30px; padding-right:5px;"})
+              .text((index + 1) + " :")
+              .appendTo(div1);
+            $(itemData).appendTo(div1);
+            $(itemNodeId).appendTo(div2);
+            
+            div1.find(".dataName").val(dItem.dataName);
+            div1.find(".unit").val(dItem.unit);
+            div2.find(".nodeId").val(dItem.nodeId);
+          },
+          
+          // When the order of list is changed
+          sortItems: function(items) {
+            items.each(function(i, elm){
+              // re-set index number
+              elm.find(".index").text((i + 1) + ":");
+            });
+          },
+          
+          // When remove item(s) in the list
+          removeItem: function(dItem){
+            let items = $('#node-input-dItemcontainer').editableList("items");
+            items.each(function(i, elm){
+              // re-set index number
+              elm.find(".index").text((i + 1) + ":");
+            });
+          }
+        });
+  
+        //  Get nodes' paremeter and register them to the list.
+        for (let i=0; i<node.dataItems.length; i++) {
+          $("#node-input-dItemcontainer").editableList('addItem',node.dataItems[i]);
+        }
+
+        //  to control interval row show/hide
+        //  when opc action is subscribe, don't need to set internal value
+        var inputAction = $('#node-input-action');
+        var inputInterval = $('#node-input-intervalrow');
+        inputAction.change(function(){
+          if (inputAction.val() == "subscribe"){
+            inputInterval.hide();
+          }
+          else {
+            inputInterval.show();
+          }
+        });
+      },
+  
+      oneditsave: function() {
+        const node = this;
+        let configReady = "ready";
+        let items = $("#node-input-dItemcontainer").editableList('items');
+  
+        // Create data items
+        node.dataItems = [];
+        
+        items.each(function(i, elm){
+          let item = {
+            dataName: elm.find(".dataName").val(),
+            unit: elm.find(".unit").val(),
+            nodeId: elm.find(".nodeId").val()
+            }
+          
+          // Check necessary properties
+          if (!item.dataName) configReady = "";
+          if (!item.nodeId) configReady = "";
+          
+          node.dataItems.push(item);
+        });
+        
+        // Check object key
+        if (!$("#node-input-objectKey").val()) configReady = "";
+        // Check object contentType
+        if (!$("#node-input-contentType").val()) configReady = "";
+        // Check data items are existed at least one.
+        if (!node.dataItems.length) configReady = "";
+  
+        //  set ready flag
+        $("#node-input-configReady").val(configReady);
+      },
+  
+      oneditresize: function(size) {
+        if ($("#tab-dItem-property").is(":visible")) {
+          // When editor is resized
+          let height = size.height;
+          // remove height of contens excepted Tab
+          height -= $("#action-block").outerHeight(true);
+          height -= $("#name-block").outerHeight(true);
+          
+          // remove height excepted list in property of dataItems
+          rows = $("#tab-dItem-property>div:not(.node-input-dItemcontainer-row)");
+          for (let i=0; i<rows.length; i++) {
+            height -= $(rows[i]).outerHeight(true);
+          }
+          // the height of tab itselt. (almost 60)
+          height -= 60;
+          
+          // remove margin of list
+          const editorRow = $("#tab-dItem-property>div.node-input-dItemcontainer-row");
+          height -= (parseInt(editorRow.css("marginTop"))+parseInt(editorRow.css("marginBottom")));
+          
+          // set height of list. When height is not visible, this code won't work well.
+          $("#node-input-dItemcontainer").editableList('height',height);
+        }
+      }
+    });
+  
+  </script>
+  

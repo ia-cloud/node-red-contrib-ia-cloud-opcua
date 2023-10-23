@@ -1,0 +1,10 @@
+{
+  "editor": {
+    "name": "Node Name",
+    "paletteLabel": "UA->ia-cloud"
+  },
+  "runtime": {
+    "ready": "Ready",
+    "sent": "Data is sent"
+  }
+}

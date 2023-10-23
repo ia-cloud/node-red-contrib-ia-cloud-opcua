@@ -1,0 +1,10 @@
+{
+  "editor": {
+    "name": "ノード名称",
+    "paletteLabel": "UA->ia-cloud"
+  },
+  "runtime": {
+    "ready": "入力待ち",
+    "sent": "データ送出"
+  }
+}

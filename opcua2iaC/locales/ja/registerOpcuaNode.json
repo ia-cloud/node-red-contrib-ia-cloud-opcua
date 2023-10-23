@@ -1,0 +1,29 @@
+{
+  "editor": {
+    "name": "ノード名称",
+    "paletteLabel": "ia-cloud->UAitem",
+    "tab": {
+      "object-settings": "オブジェクトの設定",
+      "data-settings": "データの設定"
+    },
+
+    "action": "OPC Action",
+    "initialDelay": "起動後待機(秒)",
+    "period": "定期収集周期(秒)",
+    "objectKey": "オブジェクトキー",
+    "objectKeyholder": "必須: 固有のキー",
+    "objectDescription": "オブジェクトの説明",
+
+    "contentType": "データ構造型",
+    "dataName": "データ名称",
+    "unit": "単位",
+    "nodeId": "ノードID",
+
+    "output1": "\"UA->ia-cloud\"ノードに接続",
+    "output2": "\"OpcUa-Client\"ノードに接続"
+  },
+  "runtime": {
+    "ready": "入力待ち",
+    "sent": "データ送出"
+  }
+}
